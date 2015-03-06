@@ -2,41 +2,6 @@ import UIKit
 import Realm
 
 
-class Product: RLMObject {
-    dynamic var name = ""
-    dynamic var price = 0.0
-    dynamic var rating = -1
-    dynamic var startDate = NSDate(timeIntervalSince1970: 0)
-    
-    // Boilerplate necessary to implement custom initializer.
-    // See https://github.com/realm/realm-cocoa/issues/1101
-    override init() {
-        super.init()
-    }
-    override init(object: AnyObject!) {
-        super.init(object:object)
-    };
-    override init(object: AnyObject!, schema: RLMSchema!) {
-        super.init(object: object, schema: schema)
-    }
-    override init(objectSchema: RLMObjectSchema) {
-        super.init(objectSchema: objectSchema)
-    }
-    // end boilerplate
-    
-    convenience init(name: String, price: Double, rating: Int, startDate: String) {
-        self.init()
-        self.name = name
-        self.price = price
-        self.rating = rating
-        
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        self.startDate = dateFormatter.dateFromString(startDate)!
-    }
-}
-
-
 // Customized table view cell class that has the Subtitle style.
 class Cell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
@@ -72,19 +37,8 @@ class TableViewController: UITableViewController {
         }
         
         // If there are no products, add some to make the demo less boring.
-        let realm = RLMRealm.defaultRealm()
         if Product.allObjects().count == 0 {
-            // Show some different ways of adding RLMObjects to the database.
-            realm.beginWriteTransaction()
-            realm.addObject(Product(name: "Katana", price: 80.50, rating: 2, startDate: "2013-02-28"))
-            Product.createInRealm(realm, withObject: ["Sais", 44.87, 5, NSDate()])
-            realm.commitWriteTransaction()
-            
-            realm.transactionWithBlock {
-                realm.addObject(Product(name: "Nunchakus", price: 35.05, rating: 4, startDate: "2013-05-15"))
-                
-                Product.createInDefaultRealmWithObject(["name": "Bo", "price": 56.23, "rating": 3, "startDate": NSDate()])
-            }
+            populateProducts()
         }
     }
     
@@ -100,19 +54,32 @@ class TableViewController: UITableViewController {
         let alert = UIAlertController(title: "Add a product", message: "",
             preferredStyle: .Alert)
         var nameTextField: UITextField!
+        var priceTextField: UITextField!
+        var ratingTextField: UITextField!
         
         alert.addTextFieldWithConfigurationHandler { textField in
             nameTextField = textField
+            nameTextField.placeholder = "Product name"
+        }
+        alert.addTextFieldWithConfigurationHandler { textField in
+            priceTextField = textField
+            priceTextField.placeholder = "Price"
+        }
+        alert.addTextFieldWithConfigurationHandler { textField in
+            ratingTextField = textField
+            ratingTextField.placeholder = "Rating"
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "OK", style: .Default) { _ in
             let name = nameTextField.text
+            let price = (priceTextField.text as NSString).doubleValue
+            let rating = (ratingTextField.text as NSString).integerValue
             
             // Make sure a product with the same name doesn't already exist.
             var results = Product.objectsWhere("name = %@", name)
             if results.count == 0 {
                 RLMRealm.defaultRealm().transactionWithBlock {
-                    Product.createInDefaultRealmWithObject([name, 0.0, 3, NSDate()])
+                    Product.createInDefaultRealmWithObject([name, price, rating, NSDate()])
                     return
                 }
             } else {
@@ -136,8 +103,9 @@ class TableViewController: UITableViewController {
         let product = products[UInt(indexPath.row)] as Product
         
         cell.textLabel?.text = product.name
-        
-        var detail = "$\(product.price), \(product.rating) stars, sold since " +
+
+        let detail = NSString(format: "$%0.2f, %d stars, sold since ",
+            product.price, product.rating) +
             NSString(string: "\(product.startDate)").substringToIndex(10)
         cell.detailTextLabel?.text = detail
         

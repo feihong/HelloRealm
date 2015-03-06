@@ -14,6 +14,7 @@
 		A73D8DAE1A8B0AC4000014D4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A73D8DAC1A8B0AC4000014D4 /* LaunchScreen.xib */; };
 		A73D8DBA1A8B0AC4000014D4 /* HelloRealmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73D8DB91A8B0AC4000014D4 /* HelloRealmTests.swift */; };
 		A7C4A12C1A8B0B9000A6F5D6 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C4A12B1A8B0B9000A6F5D6 /* RLMSupport.swift */; };
+		A7F734171AA4C32900A21D1C /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F734161AA4C32900A21D1C /* Product.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		A73D8DB81A8B0AC4000014D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A73D8DB91A8B0AC4000014D4 /* HelloRealmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelloRealmTests.swift; sourceTree = "<group>"; };
 		A7C4A12B1A8B0B9000A6F5D6 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
+		A7F734161AA4C32900A21D1C /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		E43CECDAE394552938FA7F34 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				A73D8DA31A8B0AC4000014D4 /* AppDelegate.swift */,
+				A7F734161AA4C32900A21D1C /* Product.swift */,
 				A73D8DA51A8B0AC4000014D4 /* TableViewController.swift */,
 				A73D8DAA1A8B0AC4000014D4 /* Images.xcassets */,
 				A73D8DAC1A8B0AC4000014D4 /* LaunchScreen.xib */,
@@ -287,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A73D8DA61A8B0AC4000014D4 /* TableViewController.swift in Sources */,
+				A7F734171AA4C32900A21D1C /* Product.swift in Sources */,
 				A7C4A12C1A8B0B9000A6F5D6 /* RLMSupport.swift in Sources */,
 				A73D8DA41A8B0AC4000014D4 /* AppDelegate.swift in Sources */,
 			);
