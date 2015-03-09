@@ -31,9 +31,10 @@ class TableViewController: UITableViewController {
         notificationToken = RLMRealm.defaultRealm().addNotificationBlock {
             // Avoid retain cycle (self owns notificationToken, which owns this 
             // closure, which would otherwise own self if we didn't use the 
-            // unowned keyword).
-            [unowned self] notification, realm in
-            self.tableView.reloadData()
+            // weak keyword).
+            [weak self] notification, realm -> Void in
+            self?.tableView.reloadData()
+            return
         }
         
         // If there are no products, add some to make the demo less boring.
@@ -104,7 +105,7 @@ class TableViewController: UITableViewController {
         
         cell.textLabel?.text = product.name
 
-        let detail = NSString(format: "$%0.2f, %d stars, sold since ",
+        let detail = String(format: "$%0.2f, %d stars, sold since ",
             product.price, product.rating) +
             NSString(string: "\(product.startDate)").substringToIndex(10)
         cell.detailTextLabel?.text = detail
